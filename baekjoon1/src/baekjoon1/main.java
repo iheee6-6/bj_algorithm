@@ -18,28 +18,31 @@ import java.util.Stack;
 public class main {
 
 	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String inputNum = br.readLine();
-
-		 HashMap<Integer,Integer> map = new HashMap<>();
-		 for(int i =1;i<Integer.parseInt(inputNum)+1;i++) {
-			String input = br.readLine();
-			String[] str = input.split(" ");
-			HashSet<Integer> line = new HashSet<>();
-			Integer result=Integer.parseInt(str[0]);
-			for(int j=1;j<str.length;j++) {
-				line.add(Integer.parseInt(str[j]));
-			}
-			for(Integer idx :line) {
-				result+=map.get(idx);
-			}
-			map.put(i,result);
-		 }
-		 
-		 
-		 for(Integer m : map.keySet()) {
-				System.out.println(map.get(m));
-		 }
+		
+		test2_sugar sugar = new test2_sugar();
+		sugar.solution();
+//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//		String inputNum = br.readLine();
+//
+//		 HashMap<Integer,Integer> map = new HashMap<>();
+//		 for(int i =1;i<Integer.parseInt(inputNum)+1;i++) {
+//			String input = br.readLine();
+//			String[] str = input.split(" ");
+//			HashSet<Integer> line = new HashSet<>();
+//			Integer result=Integer.parseInt(str[0]);
+//			for(int j=1;j<str.length;j++) {
+//				line.add(Integer.parseInt(str[j]));
+//			}
+//			for(Integer idx :line) {
+//				result+=map.get(idx);
+//			}
+//			map.put(i,result);
+//		 }
+//		 
+//		 
+//		 for(Integer m : map.keySet()) {
+//				System.out.println(map.get(m));
+//		 }
 		 
 		//test1_str str = new test1_str();
 		//for(int i=0;i<input.length();i++)
