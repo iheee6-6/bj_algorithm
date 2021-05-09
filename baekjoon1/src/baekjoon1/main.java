@@ -3,6 +3,7 @@
 package baekjoon1;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +20,27 @@ public class main {
 
 	public static void main(String[] args) throws Exception {
 		
-		test2_sugar sugar = new test2_sugar();
-		sugar.solution();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String inputNum = "";
+		try {
+			inputNum = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String[] numArr=inputNum.split(" ");
+		int A=Integer.parseInt(numArr[0]);
+		int B=Integer.parseInt(numArr[1]);
+		int C=Integer.parseInt(numArr[2]);
+
+		if(B>=C) System.out.println(-1);
+		else System.out.println((A/(C-B))+1);
+		
+	}
+}
+
+//		test3_1712 sugar = new test3_1712();
+//		System.out.println(sugar.solution());
+		
 //		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //		String inputNum = br.readLine();
 //
@@ -51,8 +71,8 @@ public class main {
 		//String d=input.substring(1,2);
 		//int result = str.solution(map,input);
 		//System.out.println(result);
-	}
-}
+	
+
 //	public static void main(String[] args) throws Exception {
 //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //		
