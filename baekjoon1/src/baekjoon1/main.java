@@ -19,22 +19,23 @@ import java.util.Stack;
 public class main {
 
 	public static void main(String[] args) throws Exception {
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String inputNum = "";
-		try {
-			inputNum = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String[] numArr=inputNum.split(" ");
-		int A=Integer.parseInt(numArr[0]);
-		int B=Integer.parseInt(numArr[1]);
-		int C=Integer.parseInt(numArr[2]);
-
-		if(B>=C) System.out.println(-1);
-		else System.out.println((A/(C-B))+1);
-		
+		test14501 test = new test14501();
+		test.solution();
+//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//		String inputNum = "";
+//		try {
+//			inputNum = br.readLine();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		String[] numArr=inputNum.split(" ");
+//		int A=Integer.parseInt(numArr[0]);
+//		int B=Integer.parseInt(numArr[1]);
+//		int C=Integer.parseInt(numArr[2]);
+//
+//		if(B>=C) System.out.println(-1);
+//		else System.out.println((A/(C-B))+1);
+//		
 	}
 }
 
