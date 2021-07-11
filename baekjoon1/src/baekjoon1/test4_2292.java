@@ -18,7 +18,7 @@ public class test4_2292 {
 		int n=0;
 		while(true) {
 			if((n+1)>=num) {
-				if(n%2==0) 
+				//if(n%2==0) 
 			}
 			
 		}
