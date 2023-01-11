@@ -1,38 +1,36 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int map[][];
-	static boolean visit[];
-	static int n, m, v;
-	static int count = 0;
-	
-	public static int dfs(int i) {
-		visit[i] = true;
-		
-		for(int j=1; j<=n; j++) {
-			if(map[i][j] == 1 && visit[j] == false) {
-				count ++;
-				dfs(j);
+	static int[][] arr;
+	static int N ;
+	static int result;
+	static boolean[] check;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		int M =Integer.parseInt(br.readLine());
+		StringTokenizer st;
+		arr=new int[N+1][N+1];
+		check=new boolean[N+1];
+		for (int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			arr[a][b] = arr[b][a] = 1;
+		}
+		dfs(1);
+		System.out.println(result-1);
+	}
+	static void dfs(int start) {
+		check[start]=true;
+		result++;
+		for(int i=1;i<N+1;i++) {
+			if(arr[start][i]==1&&!check[i]) {
+				dfs(i);
 			}
 		}
-		return count;
-	}
-	
-	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		n = scan.nextInt();	// 컴퓨터 수(정점)
-		m = scan.nextInt();	// 연결된 컴퓨터 쌍의 수(간선)
-		v = 1;	// 탐색 시장할 정점의 번호
-		map = new int[n+1][n+1];	// 각 정점간 탐색 경로를 저장할 배열
-		visit = new boolean[n+1];	// 정점의 탐색 여부 체크
-		
-		for(int i=0; i<m; i++) {
-			int a = scan.nextInt();
-			int b = scan.nextInt();
-			map[a][b] = map[b][a]= 1;
-		}
-		
-		System.out.println(dfs(1));
-		scan.close();
 	}
 }
