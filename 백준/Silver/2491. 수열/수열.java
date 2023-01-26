@@ -1,38 +1,43 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc=new Scanner(System.in);
-		int N=sc.nextInt();
-		int arr[]=new int[N];
-		for (int i = 0; i < N; i++) {
-			arr[i]=sc.nextInt();
-			
+
+	static int num, max = 1;
+	static int[] arr;
+	static int[] dp;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		num = Integer.parseInt(br.readLine());
+		arr = new int[num];
+		dp = new int[num];
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < num; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
-		int cnt=1;
-		int max=1;
-		for (int i = 1; i < N; i++) {
-			if(arr[i-1]>=arr[i]) {
-				cnt++;
-			}else {
-				cnt=1;
-			}
-			if(max<cnt) {
-				max=cnt;
-			}
+		int now = 1;
+ 		for (int i = 0; i < num - 1; i++) {
+ 			if (arr[i] >= arr[i + 1]) {
+    				now++;
+  			}
+			else now =1;
+			if (max < now)
+				max = now;
 		}
-		cnt=1;
-		for (int i = 1; i < N; i++) {
-			if(arr[i-1]<=arr[i]) {
-				cnt++;
-			}else {
-				cnt=1;
+		now=1;
+		for (int i = 0; i < num - 1; i++) {
+			if (arr[i] <= arr[i + 1]) {
+				now++;
 			}
-			if(max<cnt) {
-				max=cnt;
-			}
+			else now =1;
+			if (max < now)
+				max = now;
 		}
+
 		System.out.println(max);
-		
 	}
+
 }
