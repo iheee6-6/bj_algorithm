@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -13,11 +14,12 @@ public class Main { //시간초과 // ListIterator<String> iter = origin.listIte
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
 		String[] arr = br.readLine().split("");
-	//	LinkedList<String> list = new LinkedList<>(Arrays.asList(arr));
-		LinkedList<String> list = new LinkedList<>();
-		for(int i = 0; i < arr.length; i++) {
-			list.add(arr[i]);
-		}int m = Integer.parseInt(br.readLine());
+		LinkedList<String> list = new LinkedList<>(Arrays.asList(arr));
+//		LinkedList<String> list = new LinkedList<>();
+//		for(int i = 0; i < arr.length; i++) {
+//			list.add(arr[i]);
+//		}
+		int m = Integer.parseInt(br.readLine());
 		ListIterator<String> iter = list.listIterator();
 		while(iter.hasNext()) {
 			iter.next();
