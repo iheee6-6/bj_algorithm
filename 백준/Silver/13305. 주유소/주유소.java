@@ -13,14 +13,14 @@ public class Main {
 		int n = Integer.parseInt(br.readLine());
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
-	    int[] distance=new int[n-1];
+		long[] distance=new long[n-1];
 		for(int i=0;i<n-1;i++) {
 			distance[i]=Integer.parseInt(st.nextToken());
 		}
 		
 		st = new StringTokenizer(br.readLine());
-		int[] cost=new int[n];
-		int min =Integer.MAX_VALUE;
+		long[] cost=new long[n];
+		long min =Integer.MAX_VALUE;
 		int minIdx=0;
 		for(int i=0;i<n;i++) {
 			cost[i]=Integer.parseInt(st.nextToken());
@@ -32,7 +32,7 @@ public class Main {
 			}
 		}
 		
-		int result=0;
+		long result=0;
 		for(int i=0;i<n-1;i++) {
 			if(minIdx>i) {
 				result+=cost[i]*distance[i];
