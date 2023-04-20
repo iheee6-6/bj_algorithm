@@ -1,67 +1,58 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n,sx,sy,dx,dy;
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = null;
-		
 		int t = Integer.parseInt(br.readLine());
-		for(int tc=0; tc<t; tc++) {
-			n = Integer.parseInt(br.readLine());
-			List<int[]> list = new ArrayList<>();
-			for(int i=0; i<n+2; i++) {
+		for (int i = 0; i < t; i++) {
+			int conv = Integer.parseInt(br.readLine());
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int sangX = Integer.parseInt(st.nextToken());
+			int sangY = Integer.parseInt(st.nextToken());
+
+			int[][] convArr = new int[conv][2];
+			for (int j = 0; j < conv; j++) {
 				st = new StringTokenizer(br.readLine());
-				int x = Integer.parseInt(st.nextToken());
-				int y = Integer.parseInt(st.nextToken());
-				if(i==0) {
-					sx = x;
-					sy = y;
-				}else if(i==n+1) {
-					dx = x;
-					dy = y;
-				}else {
-					list.add(new int[]{x,y});
+				convArr[j][0] = Integer.parseInt(st.nextToken());
+				convArr[j][1] = Integer.parseInt(st.nextToken());
+			}
+
+			st = new StringTokenizer(br.readLine());
+			int festivalX = Integer.parseInt(st.nextToken());
+			int festivalY = Integer.parseInt(st.nextToken());
+
+			boolean[] visited = new boolean[conv];
+			Queue<int[]> q = new LinkedList<>();
+			q.add(new int[] { sangX, sangY });
+			boolean result = false;
+			while (!q.isEmpty()) {
+				int[] temp = q.poll();
+				if (Math.abs(festivalX - temp[0]) + Math.abs(festivalY - temp[1]) <= 1000) {
+					result=true;
 				}
-			}
-			
-			bw.write(bfs(list)? "happy\n" : "sad\n");
-		}
-		
-		bw.flush();
-		bw.close();
-	}
-	
-	static boolean bfs(List<int[]> list) {
-		Queue<int[]> q = new LinkedList<>();
-		boolean[] visited = new boolean[n];
-		q.add(new int[] {sx,sy});
-		while(!q.isEmpty()) {
-			int[] pos = q.poll();
-			int px = pos[0], py = pos[1];
-			if(Math.abs(px-dx) + Math.abs(py-dy) <= 1000) {
-				return true;
-			}
-			
-			for(int i=0; i<n; i++) {
-				if(!visited[i]) {
-					int nx = list.get(i)[0], ny = list.get(i)[1];
-					int dis = Math.abs(px - nx) + Math.abs(py - ny);
-					if(dis <= 1000) {
-						visited[i] = true;
-						q.add(new int[]{nx,ny});
+
+				
+				for (int j = 0; j < conv; j++) {
+					if (Math.abs(convArr[j][0] - temp[0]) + Math.abs(convArr[j][1] - temp[1]) <= 1000&&!visited[j]) {
+						q.add(new int[] {convArr[j][0],convArr[j][1]});
+						visited[j]=true;
 					}
 				}
 			}
+
+			if(!result)
+				System.out.println("sad");
+			else 
+				System.out.println("happy");
+
 		}
-		return false;
+
 	}
-	
+
 }
