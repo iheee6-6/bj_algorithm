@@ -56,7 +56,7 @@ public class Main {
 				if(xx<0||yy<0||xx>=a||yy>=b||checked[xx][yy]) continue;
 				if(arr[xx][yy]==1){
 					checked[xx][yy]=true;
-					dp[xx][yy]=Math.min(dp[x][y]+1,dp[xx][yy]);
+					dp[xx][yy]=dp[x][y]+1;
 					q.add(new Dot(xx,yy));
 				}
 			}
@@ -66,7 +66,7 @@ public class Main {
 		for (int i = 0; i < a; i++) {
 			for (int j = 0; j < b; j++) {
 				if(arr[i][j]==0) sb.append(0).append(" ");
-				else if(dp[i][j]==Integer.MAX_VALUE) {
+				else if(!checked[i][j]&&arr[i][j]==1) {
 					sb.append(-1).append(" ");
 				}else 
 					sb.append(dp[i][j]).append(" ");
