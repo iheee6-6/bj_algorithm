@@ -73,8 +73,8 @@ public class Main {
 					continue;
 				if (name.equals("J")) {
 					if (xx == a - 1 || yy == b - 1 || xx == 0 || yy == 0) {
-						min = Math.min(min, node.count + 1);
-						continue;
+		                System.out.println( node.count+1);
+                        return;
 					}
 				}
 				arr[xx][yy] = name;
