@@ -1,47 +1,44 @@
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
- 
+
 public class Main {
- 
-	public static int[] arr;
-	public static boolean[] visit;
-	public static StringBuilder sb = new StringBuilder();
- 
+
+	static int n, m;
+	static int[] arr;
+	static boolean[] visited;
+	static StringBuilder sb = new StringBuilder();
+
 	public static void main(String[] args) throws IOException {
- 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
- 
 		StringTokenizer st = new StringTokenizer(br.readLine());
- 
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
- 
-		arr = new int[M];
-		visit = new boolean[N];
-		dfs(N, M, 0);
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		visited = new boolean[n + 1];
+		arr = new int[m];
+		dfs(0);
+
 		System.out.println(sb);
- 
 	}
- 
-	public static void dfs(int N, int M, int depth) {
-		if (depth == M) {
-			for (int val : arr) {
-				sb.append(val).append(' ');
-			}
-			sb.append('\n');
+
+	static void dfs(int depth) {
+		if (depth == m) {
+			for (int idx : arr)
+				sb.append(idx).append(" ");
+			sb.append("\n");
 			return;
 		}
- 
-		for (int i = 0; i < N; i++) {
-			if (!visit[i]) {
-				visit[i] = true;
-				arr[depth] = i + 1;
-				dfs(N, M, depth + 1);
-				visit[i] = false;
+
+		for (int i = 1; i < n + 1; i++) {
+			if (!visited[i]) {
+				visited[i] = true;
+				arr[depth]=i;
+				dfs(depth + 1);
+				visited[i] = false;
 			}
 		}
 	}
- 
+
 }
