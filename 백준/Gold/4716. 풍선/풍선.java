@@ -1,74 +1,73 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            if (a == 0 && b == 0 && n == 0)
-                break;
-            ArrayList<Team> teamList = new ArrayList<>();
 
-            for (int i = 0; i < n; i++) {
-                st = new StringTokenizer(br.readLine());
-                teamList.add(new Team(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
-            }
-            Collections.sort(teamList);
+	static class Node implements Comparable<Node> {
+		int num, adis, bdis;
 
-            int sum = 0;
-            for (int i = 0; i < n; i++) {
-                Team t = teamList.get(i);
-                if (t.aDist < t.bDist) {//a가 더 가까움
-                    if (a - t.balloon < 0) { //a를 먼저 사용하고 b사용
-                        sum += a * t.aDist;
-                        t.balloon -= a;
-                        a = 0;
-                        sum += t.balloon * t.bDist;
-                        b -= t.balloon;
-                    } else { //a를 완전히 사용
-                        a -= t.balloon;
-                        sum += t.balloon * t.aDist;
-                    }
-                } else { //b가 더 가까움
-                    if (b - t.balloon < 0) { //b를 먼저 사용하고 a사용
-                        sum += b * t.bDist;
-                        t.balloon -= b;
-                        b = 0;
-                        sum += t.balloon * t.aDist;
-                        a -= t.balloon;
-                    } else { //b를 완전히 사용
-                        b -= t.balloon;
-                        sum += t.balloon * t.bDist;
-                    }
-                }
-            }
-            System.out.println(sum);
-        }
-    }
-}
+		Node(int num, int adis, int bdis) {
+			this.num = num;
+			this.adis = adis;
+			this.bdis = bdis;
+		}
 
-class Team implements Comparable<Team> {
-    int aDist;
-    int bDist;
-    int balloon;
+		@Override
+		public int compareTo(Node nd) {
+			return Math.abs(nd.adis - nd.bdis) - Math.abs(this.adis - this.bdis);
+		}
+	}
 
-    public Team(int balloon, int aDist, int bDist) {
-        this.aDist = aDist;
-        this.bDist = bDist;
-        this.balloon = balloon;
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		while (true) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			int an = Integer.parseInt(st.nextToken());
+			int bn = Integer.parseInt(st.nextToken());
+			if (an == 0 && bn == 0 && n == 0)
+				break;
+			Node[] arr = new Node[n];
+			for (int i = 0; i < n; i++) {
+				st = new StringTokenizer(br.readLine());
+				arr[i] = new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
 
-    //a와 b의 차이로 내림차순 정렬
-    @Override
-    public int compareTo(Team o) {
-        return Math.abs(o.aDist - o.bDist) - Math.abs(this.aDist - this.bDist);
-    }
+			}
+
+			Arrays.sort(arr);
+			int result = 0;
+			for (int i = 0; i < n; i++) {
+				if (arr[i].adis < arr[i].bdis) {
+					if (an >= arr[i].num) {
+						an -= arr[i].num;
+						result += arr[i].adis * arr[i].num;
+					} else {
+						result += arr[i].adis * an;
+						result += arr[i].bdis * (arr[i].num - an);
+						bn -= (arr[i].num - an);
+						an = 0;
+					}
+				} else {
+					if (bn >= arr[i].num) {
+						bn -= arr[i].num;
+						result += arr[i].bdis * arr[i].num;
+					} else {
+						result += arr[i].bdis * bn;
+						result += arr[i].adis * (arr[i].num - bn);
+						an -= (arr[i].num - bn);
+						bn = 0;
+					}
+
+				}
+			}
+
+			System.out.println(result);
+		}
+	}
+
 }
