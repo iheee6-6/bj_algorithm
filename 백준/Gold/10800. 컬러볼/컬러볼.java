@@ -1,49 +1,65 @@
-import java.io.*;
-import java.util.*;
- 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(bf.readLine());
- 
-        Ball[] balls = new Ball[n];
-        for(int i = 0; i < n; i++) {
-            String str = bf.readLine();
-            StringTokenizer st = new StringTokenizer(str);
-            int c = Integer.parseInt(st.nextToken());
-            int s = Integer.parseInt(st.nextToken());
-            balls[i] = new Ball(i, c, s);
-        }   
-        Arrays.sort(balls, (o1, o2) -> o1.size - o2.size);
- 
-        int[] result = new int[n];
-        int[] colors = new int[n + 1];
-        int ball_idx = 0;
-        int sum = 0;
-        for(int i = 0; i < n; i++) {
-            Ball current = balls[i];
-            while(balls[ball_idx].size < current.size) {
-                sum += balls[ball_idx].size;
-                colors[balls[ball_idx].color] += balls[ball_idx].size;
-                ball_idx++;
-            }
-            result[current.idx] = sum - colors[current.color]; 
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < n; i++) {
-            sb.append(result[i] + "\n");
-        }
-        System.out.print(sb.toString());
-    }
- 
-    public static class Ball {
-        int idx, color, size;
- 
-        public Ball(int idx, int color, int size) {
-            this.idx = idx;
-            this.color = color;
-            this.size = size;
-        }
-    }
+
+	static class Node {
+		int idx, color, size;
+
+		Node(int idx, int color, int size) {
+			this.idx = idx;
+			this.color = color;
+			this.size = size;
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		Node[] arr = new Node[n];
+
+		StringTokenizer st;
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
+			int c = Integer.parseInt(st.nextToken());
+			int s = Integer.parseInt(st.nextToken());
+			arr[i] = new Node(i, c, s);
+		}
+
+		StringBuilder sb = new StringBuilder();
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		Arrays.sort(arr, (a1, a2) -> (a1.size - a2.size));
+
+		int sum = 0;
+		int check_idx = 0;
+		int[] result = new int[n];
+		int[] color = new int[n + 1];
+		for (int i = 0; i < n; i++) {
+			Node nd = arr[i];
+			while (arr[check_idx].size < nd.size) {
+				Node nd2 = arr[check_idx];
+				sum += nd2.size;
+				color[nd2.color] += nd2.size;
+				check_idx++;
+			}
+			result[nd.idx] = sum - color[nd.color];
+		}
+
+		for (int i = 0; i < n; i++) {
+			sb.append(result[i]).append("\n");
+		}
+
+		bw.write(sb.toString());
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
 }
