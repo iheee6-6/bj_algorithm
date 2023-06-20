@@ -4,46 +4,50 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.StringTokenizer;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    String[] info = br.readLine().split(" ");
+	static class Node {
+		int w, cost;
 
-    int N = Integer.valueOf(info[0]);
-    int M = Integer.valueOf(info[1]);
-    int[][] price = new int[N][2];
+		Node(int w, int cost) {
+			this.cost = cost;
+			this.w = w;
+		}
+	}
 
-    for (int i = 0; i < price.length; i++) {
-      info = br.readLine().split(" ");
-      price[i] = new int[] { Integer.valueOf(info[0]), Integer.valueOf(info[1]) };
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-    Arrays.sort(price, new Comparator<int[]>() {
-      @Override
-      public int compare(int[] o1, int[] o2) {
-        if (Integer.compare(o1[1], o2[1]) == 0) {
-          return Integer.compare(o2[0], o1[0]);
-        }
+		int N = Integer.valueOf(st.nextToken());
+		int M = Integer.valueOf(st.nextToken());
+		Node[] list = new Node[N];
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			list[i] = new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+		}
 
-        return Integer.compare(o1[1], o2[1]);
-      }
-    });
+		Arrays.sort(list, (a, b) -> {
+			if (b.cost == a.cost)
+				return b.w - a.w;
+			else
+				return a.cost - b.cost;
+		});
 
-    int totalPrice = -1;
+		  int totalPrice = -1;
     int totalGram = 0;
     int answer = Integer.MAX_VALUE;
     boolean isPossible = false;
 
     for (int i = 0; i < N; i++) {
-      totalGram += price[i][0];
+      totalGram += list[i].w;
 
-      if (i > 0 && price[i - 1][1] == price[i][1]) {
-        totalPrice += price[i][1];
+      if (i > 0 && list[i - 1].cost == list[i].cost) {
+        totalPrice += list[i].cost;
       } else {
-        totalPrice = price[i][1];
+        totalPrice = list[i].cost;
       }
 
       if (totalGram >= M) {
@@ -55,6 +59,6 @@ public class Main {
     bw.write(isPossible ? answer + "\n" : -1 + "\n");
     bw.flush();
     bw.close();
-  }
+	}
 
 }
