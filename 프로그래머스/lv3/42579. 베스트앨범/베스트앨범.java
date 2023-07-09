@@ -1,46 +1,73 @@
 import java.util.*;
 class Solution {
+    
+    static class G{
+        String name;
+        int play;
+        G(String name,int play){
+            this.name=name;
+            this.play=play;
+        }
+    }
+    
+    static class Node implements Comparable<Node>{
+        int idx;
+        int play;
+        
+        Node(int idx,int play){
+            this.idx=idx;
+            this.play=play;
+        }
+        
+        @Override
+        public int compareTo(Node n){
+            if(n.play==this.play){
+                return this.idx-n.idx;
+            }
+            return n.play-this.play;
+        }
+    }
+    
     public int[] solution(String[] genres, int[] plays) {
-        int[] answer = {};
-        ArrayList<Integer> ans = new ArrayList<>();
-		Map<String, Integer> map2 = new HashMap<>();
-		Map<String, ArrayList<Integer>> map = new HashMap<>();
+        int[] answer;
+        Map<String,Integer> map2= new HashMap<>();
+		Map<String, ArrayList<Node>> map = new HashMap<>();
 		for (int i = 0; i < genres.length; i++) {
 			if (map.containsKey(genres[i])) {
-				ArrayList<Integer> arrlist = map.get(genres[i]);
-				arrlist.add(plays[i]);
-				Collections.sort(arrlist,Collections.reverseOrder());
-				map.remove(genres[i]);
-				map.put(genres[i],arrlist);
-				map2.put(genres[i], map2.get(genres[i]) + plays[i]);
+				ArrayList<Node> temp= map.get(genres[i]);
+                temp.add(new Node(i,plays[i]));
+                Collections.sort(temp);
+                //map.remove(genres[i]);
+                map.put(genres[i],temp);
 			} else {
-				ArrayList<Integer> temp= new ArrayList<>();
-				temp.add(plays[i]);
+                ArrayList<Node> temp = new  ArrayList<>();
+                temp.add(new Node(i,plays[i]));
 				map.put(genres[i],temp);
-				map2.put(genres[i], plays[i]);
 			}
+            map2.put(genres[i],map2.getOrDefault(genres[i],0)+plays[i]);
 		}
 
-		List<String> keySet = new ArrayList<>(map2.keySet());
-boolean[] checked = new boolean[plays.length];
-		keySet.sort((o1, o2) -> map2.get(o2).compareTo(map2.get(o1)));
-		for (String key : keySet) {
-			ArrayList<Integer> temp = map.get(key);
-			int count=temp.size()>1?2:temp.size();
-			for (int i = 0; i < count; i++) {
-				for (int j = 0; j < plays.length; j++) {
-					if (plays[j] == temp.get(i) && !checked[j]) {
-						ans.add(j);
-						checked[j]=true;
-					}
-				}
-			}
-		}
-		
-		answer=ans.stream()
-                .mapToInt(Integer::intValue)
-                .toArray();
-	        
+        ArrayList<G> gList = new ArrayList<>();
+        for(String k : map2.keySet()){
+             gList.add(new G(k,map2.get(k)));
+        }
+        Collections.sort(gList,(g1,g2)->(g2.play-g1.play));
+        
+        ArrayList<Integer> answerList = new ArrayList<>();
+        
+		for(int i=0;i<gList.size();i++){
+            String name =gList.get(i).name;
+            ArrayList<Node> temp = map.get(name);
+            for(int j=0;j<temp.size();j++){
+                if(j>=2) break;
+                answerList.add(temp.get(j).idx);
+            }
+        }
+        
+        answer=new int[answerList.size()];
+        for(int i=0;i<answerList.size();i++){
+            answer[i]=answerList.get(i);
+        }
         return answer;
     }
 }
