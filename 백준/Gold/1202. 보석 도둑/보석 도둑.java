@@ -50,8 +50,6 @@ public class Main {
 
 		Arrays.sort(jewel, new Comparator<Jewel>() {
 			public int compare(Jewel j1, Jewel j2) {
-				if (j1.getG() == j2.getG()) // j1.g()-j2.get();
-					return j1.getPrice() - j2.getPrice();
 				return j1.getG() - j2.getG();
 			}
 		});
@@ -63,7 +61,7 @@ public class Main {
 		long result = 0;
 		int idx = 0;
 		for (int i = 0; i < k; i++) {
-			while (idx < n && jewel[idx].g <= karr[i]) {
+			while (idx < n && jewel[idx].g <= karr[i]) { //가방은 무게 오름차순으로 되어 있기에 i=0번째에 들어가는 거는 i=1에도 가능..
 				pq.add(jewel[idx++].price);
 			}
 
